@@ -5,6 +5,8 @@ import { WinstonModule, utilities } from 'nest-winston';
 import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Log } from './entities/log.entity';
+import { LogEnum } from 'src/enum/config.enum';
+import { ConfigService } from '@nestjs/config';
 
 function createDailyRotateFile(level: string, filename: string) {
   return new winston.transports.DailyRotateFile({
@@ -24,19 +26,24 @@ function createDailyRotateFile(level: string, filename: string) {
 @Module({
   imports: [
     WinstonModule.forRootAsync({
-      useFactory: () => {
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
         return {
           transports: [
             new winston.transports.Console({
-              level: 'info',
+              level: configService.get(LogEnum.LOG_LEVEL),
               format: winston.format.combine(
                 winston.format.timestamp(),
                 winston.format.ms(),
                 utilities.format.nestLike('TEST'),
               ),
             }),
-            createDailyRotateFile('info', 'application'),
-            createDailyRotateFile('warn', 'error'),
+            ...(configService.get(LogEnum.LOG_ON)
+              ? [
+                  createDailyRotateFile('info', 'application'),
+                  createDailyRotateFile('warn', 'error'),
+                ]
+              : []),
           ],
         };
       },
