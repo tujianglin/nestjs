@@ -41,8 +41,8 @@ export class UsersController {
     summary: '用户详情',
   })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  findOne(@Param('id') username: string) {
+    return this.usersService.findOne(username);
   }
 
   @ApiOperation({

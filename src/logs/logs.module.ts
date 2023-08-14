@@ -3,6 +3,8 @@ import { LogsService } from './logs.service';
 import { LogsController } from './logs.controller';
 import { WinstonModule, utilities } from 'nest-winston';
 import * as winston from 'winston';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Log } from './entities/log.entity';
 
 function createDailyRotateFile(level: string, filename: string) {
   return new winston.transports.DailyRotateFile({
@@ -39,6 +41,7 @@ function createDailyRotateFile(level: string, filename: string) {
         };
       },
     }),
+    TypeOrmModule.forFeature([Log]),
   ],
   controllers: [LogsController],
   providers: [LogsService],
