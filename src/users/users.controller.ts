@@ -21,6 +21,7 @@ export class UsersController {
     private readonly usersService: UsersService,
   ) {}
 
+  @Public()
   @ApiOperation({
     summary: '新建用户',
   })
