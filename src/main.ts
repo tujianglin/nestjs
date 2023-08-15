@@ -8,17 +8,17 @@ import { HttpExceptionFilter } from './common/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   /* swigger配置 */
   const config = new DocumentBuilder()
     .setTitle('接口')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('/api-docs', app, document);
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TranformIntercetor());
   app.useGlobalPipes(new ValidationPipe());
-  SwaggerModule.setup('api', app, document);
   await app.listen(3000);
 }
 bootstrap();

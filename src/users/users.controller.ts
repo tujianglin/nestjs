@@ -11,7 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 @ApiTags('用户')
 @Controller('users')
@@ -25,6 +25,9 @@ export class UsersController {
   @ApiOperation({
     summary: '新建用户',
   })
+  @ApiCreatedResponse({
+    type: CreateUserDto,
+  })
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -36,7 +39,6 @@ export class UsersController {
   })
   @Get()
   findAll() {
-    this.logger.error(111);
     return this.usersService.findAll();
   }
 

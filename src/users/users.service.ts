@@ -7,24 +7,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'tjl',
-      password: '123456',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
-  create(createUserDto: CreateUserDto) {
-    console.log(createUserDto);
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    const userTmp = await this.usersRepository.create(createUserDto);
+    return this.usersRepository.save(userTmp);
   }
 
   findAll() {
@@ -32,7 +20,8 @@ export class UsersService {
   }
 
   findOne(username: string) {
-    return this.users.find((user) => user.username === username);
+    console.log(username);
+    return this.usersRepository.findOne({ where: { username } });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
