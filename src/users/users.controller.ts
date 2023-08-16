@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Logger,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -29,8 +31,15 @@ export class UsersController {
     type: CreateUserDto,
   })
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    try {
+      return await this.usersService.create(createUserDto);
+    } catch {
+      throw new HttpException(
+        { message: '用户名已存在' },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
   }
 
   @Public()

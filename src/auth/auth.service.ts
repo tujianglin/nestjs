@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateAuthDto } from './dto/create-auth.dto';
@@ -12,8 +12,11 @@ export class AuthService {
 
   async signIn({ username, password }: CreateAuthDto): Promise<any> {
     const user = await this.usersService.findOne(username);
+    if (!user) {
+      throw new BadRequestException('用户不存在');
+    }
     if (user?.password !== password) {
-      throw new UnauthorizedException('用户未授权');
+      throw new BadRequestException('密码不正确');
     }
     const payload = { username: user.username };
     return {
