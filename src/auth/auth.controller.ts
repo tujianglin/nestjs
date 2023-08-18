@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Public } from './decorators/public.decorator';
 import { CreateAuthDto } from './dto/create-auth.dto';
+import { ResultAuthDto } from './dto/result-auth-dto';
 
 @ApiTags('权限')
 @Controller('auth')
@@ -15,7 +16,7 @@ export class AuthController {
     summary: '登录',
   })
   @ApiCreatedResponse({
-    type: CreateAuthDto,
+    type: ResultAuthDto,
   })
   @Post('login')
   signIn(@Body() signInDto: CreateAuthDto) {

@@ -19,6 +19,8 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TranformIntercetor());
   app.useGlobalPipes(new ValidationPipe());
+  /* 解决跨域问题 */
+  app.enableCors();
   await app.listen(3000);
 }
 bootstrap();

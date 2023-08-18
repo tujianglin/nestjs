@@ -9,6 +9,7 @@ import {
   Logger,
   HttpException,
   HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -42,13 +43,13 @@ export class UsersController {
     }
   }
 
-  @Public()
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: '用户列表',
   })
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    return await this.usersService.findAll();
   }
 
   @ApiOperation({
