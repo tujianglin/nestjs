@@ -9,7 +9,6 @@ interface Response<T> {
 @Injectable()
 export class TranformIntercetor<T> implements NestInterceptor<T, Response<T>> {
   intercept(_, next: CallHandler): Observable<Response<T>> {
-    console.log(_);
     return next.handle().pipe(
       map((data) => ({
         data,

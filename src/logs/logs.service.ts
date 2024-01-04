@@ -5,7 +5,6 @@ import { UpdateLogDto } from './dto/update-log.dto';
 @Injectable()
 export class LogsService {
   create(createLogDto: CreateLogDto) {
-    console.log(createLogDto);
     return 'This action adds a new log';
   }
 
@@ -18,7 +17,6 @@ export class LogsService {
   }
 
   update(id: number, updateLogDto: UpdateLogDto) {
-    console.log(updateLogDto);
     return `This action updates a #${id} log`;
   }
 

@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { connectionParams } from 'ormconfig';
 import { ConfigModule } from '@nestjs/config';
+import { CompModule } from './comp/comp.module';
 import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
 
@@ -36,7 +37,8 @@ const envFilePath = `.env.${process.env.NODE_ENV || 'development'}`;
     TypeOrmModule.forRoot(connectionParams),
     UsersModule,
     LogsModule,
-    AuthModule,
+    CompModule,
+    // AuthModule,
   ],
   controllers: [],
   providers: [],

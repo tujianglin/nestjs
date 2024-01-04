@@ -52,6 +52,7 @@ export class UsersController {
     return await this.usersService.findAll();
   }
 
+  @Public()
   @ApiOperation({
     summary: '用户详情',
   })
